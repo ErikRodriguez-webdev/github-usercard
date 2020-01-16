@@ -3,10 +3,13 @@
            https://api.github.com/users/<your name>
 */
 
+const insertCardsHere = document.querySelector(".cards");
+
 axios
   .get("https://api.github.com/users/ErikRodriguez-webdev")
   .then(function(response) {
     console.log(response);
+    insertCardsHere.append(createFollowerComp(response));
   })
   .catch(function(error) {
     console.log(error);
@@ -53,7 +56,7 @@ axios
 
 */
 
-const followersArray = [response.data.followers_url];
+const followersArray = [];
 
 function createFollowerComp(object) {
   const outerBox = document.createElement("div");
@@ -69,20 +72,20 @@ function createFollowerComp(object) {
   const cardBio = document.createElement("p");
 
   outerBox.classList.add("card");
-  boxImage.src = object.avatar_url;
+  boxImage.src = object.data.avatar_url;
   boxCardInfo.classList.add("card-info");
   cardName.classList.add("name");
   cardUserName.classList.add("username");
-  cardProfileURL.href = object.html_url;
+  cardProfileURL.href = object.data.html_url;
 
-  cardName.textContent = object.name;
-  cardUserName.textContent = object.login;
-  cardLocation.textContent = object.location;
+  cardName.textContent = object.data.name;
+  cardUserName.textContent = object.data.login;
+  cardLocation.textContent = object.data.location;
   cardProfileText.textContent = "Profile: ";
-  cardProfileURL.textContent = object.html_url;
-  cardFollowers.textContent = `Followers: ${object.followers}`;
-  cardFollowing.textContent = `Following: ${object.following}`;
-  cardBio.textContent = `Bio: ${object.bio}`;
+  cardProfileURL.textContent = object.data.html_url;
+  cardFollowers.textContent = `Followers: ${object.data.followers}`;
+  cardFollowing.textContent = `Following: ${object.data.following}`;
+  cardBio.textContent = `Bio: ${object.data.bio}`;
 
   outerBox.append(boxImage);
   outerBox.append(boxCardInfo);
