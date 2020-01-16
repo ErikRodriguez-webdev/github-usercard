@@ -3,6 +3,12 @@
            https://api.github.com/users/<your name>
 */
 
+// axios
+//   .get("https://api.github.com/users/ErikRodriguez-webdev")
+//   .then(function(response) {
+//     console.log(response);
+//   });
+
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -24,8 +30,6 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
-
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
@@ -45,6 +49,31 @@ const followersArray = [];
 </div>
 
 */
+
+const followersArray = [response.data.followers_url];
+
+function createFollowerComp(array) {
+  const outerBox = document.createElement("div");
+  const boxImage = document.createElement("img");
+  const boxCardInfo = document.createElement("div");
+  const cardName = document.createElement("h3");
+  const cardUserName = document.createElement("p");
+  const cardLocation = document.createElement("p");
+  const cardProfileText = document.createElement("p");
+  const cardProfileURL = document.createElement("a");
+  const cardFollowers = document.createElement("p");
+  const cardFollowing = document.createElement("p");
+  const cardBio = document.createElement("p");
+
+  outerBox.classList.add("card");
+  boxImage.src = array.avatar_url;
+  boxCardInfo.classList.add("card-info");
+  cardName.classList.add("name");
+  cardUserName.classList.add("username");
+  cardProfileURL.href = array.html_url;
+
+  return outerBox;
+}
 
 /* List of LS Instructors Github username's: 
   tetondan
