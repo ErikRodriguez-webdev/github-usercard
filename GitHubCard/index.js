@@ -3,11 +3,14 @@
            https://api.github.com/users/<your name>
 */
 
-// axios
-//   .get("https://api.github.com/users/ErikRodriguez-webdev")
-//   .then(function(response) {
-//     console.log(response);
-//   });
+axios
+  .get("https://api.github.com/users/ErikRodriguez-webdev")
+  .then(function(response) {
+    console.log(response);
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -52,7 +55,7 @@
 
 const followersArray = [response.data.followers_url];
 
-function createFollowerComp(array) {
+function createFollowerComp(object) {
   const outerBox = document.createElement("div");
   const boxImage = document.createElement("img");
   const boxCardInfo = document.createElement("div");
@@ -66,11 +69,31 @@ function createFollowerComp(array) {
   const cardBio = document.createElement("p");
 
   outerBox.classList.add("card");
-  boxImage.src = array.avatar_url;
+  boxImage.src = object.avatar_url;
   boxCardInfo.classList.add("card-info");
   cardName.classList.add("name");
   cardUserName.classList.add("username");
-  cardProfileURL.href = array.html_url;
+  cardProfileURL.href = object.html_url;
+
+  cardName.textContent = object.name;
+  cardUserName.textContent = object.login;
+  cardLocation.textContent = object.location;
+  cardProfileText.textContent = "Profile: ";
+  cardProfileURL.textContent = object.html_url;
+  cardFollowers.textContent = `Followers: ${object.followers}`;
+  cardFollowing.textContent = `Following: ${object.following}`;
+  cardBio.textContent = `Bio: ${object.bio}`;
+
+  outerBox.append(boxImage);
+  outerBox.append(boxCardInfo);
+  boxCardInfo.append(cardName);
+  boxCardInfo.append(cardUserName);
+  boxCardInfo.append(cardLocation);
+  boxCardInfo.append(cardProfileText);
+  cardProfileText.append(cardProfileURL);
+  boxCardInfo.append(cardFollowers);
+  boxCardInfo.append(cardFollowing);
+  boxCardInfo.append(cardBio);
 
   return outerBox;
 }
