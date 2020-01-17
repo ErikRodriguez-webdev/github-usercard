@@ -9,7 +9,7 @@ axios
   .get("https://api.github.com/users/ErikRodriguez-webdev")
   .then(function(response) {
     console.log(response);
-    insertCardsHere.append(createFollowerComp(response));
+    insertCardsHere.append(createCardComp(response.data));
   })
   .catch(function(error) {
     console.log(error);
@@ -25,6 +25,62 @@ axios
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
+
+axios
+  .get("https://api.github.com/users/ErikRodriguez-webdev/followers")
+  .then(function(response) {
+    console.log(response);
+    response.data.forEach(function(person) {
+      const eachPerson = createFollowersComp(person);
+      insertCardsHere.append(eachPerson);
+    });
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
+
+function createFollowersComp(object) {
+  const outerBox = document.createElement("div");
+  const boxImage = document.createElement("img");
+  const boxCardInfo = document.createElement("div");
+  const cardName = document.createElement("h3");
+  const cardUserName = document.createElement("p");
+  const cardLocation = document.createElement("p");
+  const cardProfileText = document.createElement("p");
+  const cardProfileURL = document.createElement("a");
+  const cardFollowers = document.createElement("p");
+  const cardFollowing = document.createElement("p");
+  const cardBio = document.createElement("p");
+
+  outerBox.classList.add("card");
+  boxImage.src = object.avatar_url;
+  boxCardInfo.classList.add("card-info");
+  cardName.classList.add("name");
+  cardUserName.classList.add("username");
+  cardProfileURL.href = object.html_url;
+
+  cardName.textContent = object.name;
+  cardUserName.textContent = object.login;
+  cardLocation.textContent = object.location;
+  cardProfileText.textContent = "Profile: ";
+  cardProfileURL.textContent = object.html_url;
+  cardFollowers.textContent = `Followers: ${object.followers}`;
+  cardFollowing.textContent = `Following: ${object.following}`;
+  cardBio.textContent = `Bio: ${object.bio}`;
+
+  outerBox.append(boxImage);
+  outerBox.append(boxCardInfo);
+  boxCardInfo.append(cardName);
+  boxCardInfo.append(cardUserName);
+  boxCardInfo.append(cardLocation);
+  boxCardInfo.append(cardProfileText);
+  cardProfileText.append(cardProfileURL);
+  boxCardInfo.append(cardFollowers);
+  boxCardInfo.append(cardFollowing);
+  boxCardInfo.append(cardBio);
+
+  return outerBox;
+}
 
 /* Step 5: Now that you have your own card getting added to the DOM, either 
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
@@ -56,9 +112,9 @@ axios
 
 */
 
-const followersArray = [];
+// const followersArray = [];
 
-function createFollowerComp(object) {
+function createCardComp(object) {
   const outerBox = document.createElement("div");
   const boxImage = document.createElement("img");
   const boxCardInfo = document.createElement("div");
@@ -72,20 +128,20 @@ function createFollowerComp(object) {
   const cardBio = document.createElement("p");
 
   outerBox.classList.add("card");
-  boxImage.src = object.data.avatar_url;
+  boxImage.src = object.avatar_url;
   boxCardInfo.classList.add("card-info");
   cardName.classList.add("name");
   cardUserName.classList.add("username");
-  cardProfileURL.href = object.data.html_url;
+  cardProfileURL.href = object.html_url;
 
-  cardName.textContent = object.data.name;
-  cardUserName.textContent = object.data.login;
-  cardLocation.textContent = object.data.location;
+  cardName.textContent = object.name;
+  cardUserName.textContent = object.login;
+  cardLocation.textContent = object.location;
   cardProfileText.textContent = "Profile: ";
-  cardProfileURL.textContent = object.data.html_url;
-  cardFollowers.textContent = `Followers: ${object.data.followers}`;
-  cardFollowing.textContent = `Following: ${object.data.following}`;
-  cardBio.textContent = `Bio: ${object.data.bio}`;
+  cardProfileURL.textContent = object.html_url;
+  cardFollowers.textContent = `Followers: ${object.followers}`;
+  cardFollowing.textContent = `Following: ${object.following}`;
+  cardBio.textContent = `Bio: ${object.bio}`;
 
   outerBox.append(boxImage);
   outerBox.append(boxCardInfo);
